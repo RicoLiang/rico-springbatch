@@ -36,7 +36,7 @@ public class BatchConfiguration {
 
 	@Bean
 	public ItemReader<RecordSO> reader(DataSource dataSource) {
-		JdbcCursorItemReader<RecordSO> reader = new JdbcCursorItemReader<>();
+		JdbcCursorItemReader<RecordSO> reader = new JdbcCursorItemReader<RecordSO>();
 		reader.setSql("select id, firstName, lastname, random_num from reader");
 		reader.setDataSource(dataSource);
 		reader.setRowMapper((ResultSet resultSet, int rowNum) -> {
