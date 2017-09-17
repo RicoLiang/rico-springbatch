@@ -13,7 +13,7 @@
 # SpringBatch学习文章
 [使用 Spring Batch 构建企业级批处理应用](https://www.ibm.com/developerworks/cn/java/j-lo-springbatch1/)<br/>
 [Spring Batch 之 JobParameters (十)](http://www.cnblogs.com/gulvzhe/archive/2012/01/31/2332530.html)<br/>
-`Bean的scope属性为step(scope="step")，这是SpringBatch的一个后绑定技术，就是在生成Step的时候，才去创建bean。
+` Bean的scope属性为step(scope="step")，这是SpringBatch的一个后绑定技术，就是在生成Step的时候，才去创建bean。
 
 # 问题记录
 ## Resource leak: 'context' is never closed
