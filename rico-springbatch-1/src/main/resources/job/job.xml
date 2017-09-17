@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 作业定义文件 -->
+
+	<!-- 导入job-context.xml文件 -->
+	<import resource="classpath:job-context.xml" />
+	<import resource="classpath:job/job-beans.xml" />
+
+	<batch:job id="billJob">
+		<batch:step id="billStep">
+			<batch:tasklet transaction-manager="transactionManager">
+				<batch:chunk reader="csvItemReader" processor="creditBillProcessor"
+					writer="csvItemWriter" commit-interval="2" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+</beans>

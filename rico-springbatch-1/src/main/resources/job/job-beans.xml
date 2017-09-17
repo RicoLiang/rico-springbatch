@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="creditbill" class="com.rico.springbatch.vo.CreditBillVO" />
+	<bean id="lineMapper"
+		class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+		<property name="lineTokenizer">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+				<property name="delimiter" value="," />
+				<property name="names">
+					<list>
+						<value>accountID</value>
+						<value>name</value>
+						<value>amount</value>
+						<value>date</value>
+						<value>address</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="fieldSetMapper">
+			<bean
+				class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+				<property name="prototypeBeanName" value="creditbill" />
+				<!-- <property name="targetType">
+					<bean class="com.rico.springbatch.vo.CreditBillVO" />
+				</property> -->
+			</bean>
+		</property>
+	</bean>
+	<bean id="fieldExtractor"
+		class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+		<property name="names" value="accountID,name,amount,date,address" />
+	</bean>
+	<bean id="lineAggregator"
+		class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+		<property name="delimiter" value="," />
+		<property name="fieldExtractor" ref="fieldExtractor" />
+	</bean>
+
+	<bean id="csvItemReader" class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="resource" value="classpath:data/credit-cart-bill-201709.csv" />
+		<property name="lineMapper" ref="lineMapper" />
+	</bean>
+
+	<bean id="creditBillProcessor" class="com.rico.springbatch.processor.CreditBillProcessor"
+		scope="step"></bean>
+
+	<bean id="csvItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource" value="file:target/outputFile.csv" />
+		<property name="lineAggregator" ref="lineAggregator" />
+	</bean>
+</beans>

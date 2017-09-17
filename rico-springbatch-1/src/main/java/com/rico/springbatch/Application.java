@@ -1,22 +1,31 @@
 package com.rico.springbatch;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@SpringBootApplication(scanBasePackages = "com.rico.springbatch")
-public class Application implements CommandLineRunner {
+public class Application {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+	private static Logger LOGGER = LogManager.getLogger(Application.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-
-	@Override
-	public void run(String... arg0) throws Exception {
-		LOGGER.info("rico-springbatch-1已启动");
+		ClassPathXmlApplicationContext context = null;
+		try {
+			context = new ClassPathXmlApplicationContext("job/job.xml");
+			JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
+			Job job = (Job) context.getBean("billJob");
+			JobExecution result = jobLauncher.run(job, new JobParameters());
+			LOGGER.info("作业执行的结果：[{}]", result);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		} finally {
+			if (null != context) {
+				context.close();
+			}
+		}
 	}
 }

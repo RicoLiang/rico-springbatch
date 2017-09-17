@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN" xmlns="http://logging.apache.org/log4j/2.0/config" targetNamespace="http://logging.apache.org/log4j/2.0/events">
+	<properties>
+		<!--
+                %d{yyyy-MM-dd HH:mm:ss, SSS} : 日志生产时间
+                %p : 日志输出格式
+                %c : logger的名称
+                %m : 日志内容，即 logger.info("message")
+                %n : 换行符
+                %C : Java类名
+                %L : 日志输出所在行数
+                %M : 日志输出所在方法名
+                hostName : 本地机器名
+                hostAddress : 本地ip地址
+             -->
+        <property name="FILE_PATH">c:/Program Files/ueb-print/logs</property>     
+		<property name="CONSOLE_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} - [%-5p] %m%n</property>
+		<property name="FILE_PATTERN">%d{yyyy-MM-dd HH:mm:ss} [ %t:%r ] - [%-5p] - %m%n</property>
+	</properties>
+	<appenders>
+		<console name="console" target="system_out">
+			<PatternLayout pattern="${CONSOLE_PATTERN}" />
+		</console>
+		<RollingFile name="rollingFile" fileName="${FILE_PATH}/log.log"
+                     filePattern="${FILE_PATH}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+                <ThresholdFilter level="INFO" />
+            <PatternLayout pattern="${FILE_PATTERN}"/>
+            <Policies>
+                <!-- 每24小时更新一次 -->
+                <TimeBasedTriggeringPolicy modulate="true" interval="24"/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+	</appenders>
+	<loggers>
+		<!-- 精简日志输出 -->
+		<logger name="org.springframework" level="WARN" />
+		<logger name="java.util.logging" level="WARN" />
+		<root level="info">
+			<appenderref ref="console" />
+			<appenderref ref="rollingFile" />
+		</root>
+	</loggers>
+</configuration>
