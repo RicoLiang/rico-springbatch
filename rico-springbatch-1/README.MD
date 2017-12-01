@@ -39,10 +39,10 @@ public class JobDetailFactoryBean implements FactoryBean<JobDetail>, BeanNameAwa
 }
 
 xml配置文件<br/>
-<bean id="queryPaynetResultFromIcbcJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"><br/>
+`<bean id="queryPaynetResultFromIcbcJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"><br/>
 	<property name="jobClass"><br/>
 		<value>com.ea.trade.service.job.quartz.cluster.QueryPaynetResultFromIcbcJobBean</value><br/>
 	</property><br/>
 	<property name="durability" value="true" /><br/>
 	<property name="requestsRecovery" value="true" /><br/>
-</bean>
+</bean>`
