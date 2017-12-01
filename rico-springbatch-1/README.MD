@@ -27,3 +27,26 @@
 ## spring注入java.lang.Class
 [java反射方法时，方法里面的需要其他的bean怎么注入 ](http://bbs.csdn.net/topics/390853859)<br/>
 [Spring如何为一个bean注入另一个bean的class](http://www.iteye.com/problems/50259)
+`
+public class JobDetailFactoryBean
+		implements FactoryBean<JobDetail>, BeanNameAware, ApplicationContextAware, InitializingBean {
+		
+		private Class<?> jobClass;
+		/**
+		 * Specify the job's implementation class.
+		 */
+		public void setJobClass(Class<?> jobClass) {
+			this.jobClass = jobClass;
+		}
+}
+
+xml配置文件
+<bean id="queryPaynetResultFromIcbcJobDetail"
+	class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+	<property name="jobClass">
+		<value>com.ea.trade.service.job.quartz.cluster.QueryPaynetResultFromIcbcJobBean</value>
+	</property>
+	<property name="durability" value="true" />
+	<property name="requestsRecovery" value="true" />
+</bean>
+`
