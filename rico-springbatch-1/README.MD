@@ -26,27 +26,25 @@
 # 待解决的问题
 ## spring注入java.lang.Class
 [java反射方法时，方法里面的需要其他的bean怎么注入 ](http://bbs.csdn.net/topics/390853859)<br/>
-[Spring如何为一个bean注入另一个bean的class](http://www.iteye.com/problems/50259)
-<div>
-public class JobDetailFactoryBean
-		implements FactoryBean<JobDetail>, BeanNameAware, ApplicationContextAware, InitializingBean {
+[Spring如何为一个bean注入另一个bean的class](http://www.iteye.com/problems/50259)<br/>
+public class JobDetailFactoryBean<br/>
+		implements FactoryBean<JobDetail>, BeanNameAware, ApplicationContextAware, InitializingBean {<br/>
 		
-		private Class<?> jobClass;
+		private Class<?> jobClass;<br/>
 		/**
-		 * Specify the job's implementation class.
+		 * Specify the job's implementation class.<br/>
 		 */
-		public void setJobClass(Class<?> jobClass) {
-			this.jobClass = jobClass;
-		}
-}
+		public void setJobClass(Class<?> jobClass) {<br/>
+			this.jobClass = jobClass;<br/>
+		}<br/>
+}<br/>
 
-xml配置文件
-<bean id="queryPaynetResultFromIcbcJobDetail"
-	class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-	<property name="jobClass">
-		<value>com.ea.trade.service.job.quartz.cluster.QueryPaynetResultFromIcbcJobBean</value>
-	</property>
-	<property name="durability" value="true" />
-	<property name="requestsRecovery" value="true" />
-</bean>
-</div>
+xml配置文件<br/>
+<bean id="queryPaynetResultFromIcbcJobDetail"<br/>
+	class="org.springframework.scheduling.quartz.JobDetailFactoryBean"><br/>
+	<property name="jobClass"><br/>
+		<value>com.ea.trade.service.job.quartz.cluster.QueryPaynetResultFromIcbcJobBean</value><br/>
+	</property><br/>
+	<property name="durability" value="true" /><br/>
+	<property name="requestsRecovery" value="true" /><br/>
+</bean><br/>
